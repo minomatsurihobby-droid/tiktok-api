@@ -1,0 +1,16 @@
+{
+  "name": "yt-ultra",
+  "version": "1.0.0",
+  "description": "Ultra YouTube alternative - serverless on Vercel. No API key required.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "engines": {
+    "node": ">=18.x"
+  },
+  "dependencies": {
+    "express": "^4.22.2"
+  }
+}
