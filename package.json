@@ -1,0 +1,17 @@
+{
+  "name": "tiktok-viewer",
+  "version": "1.0.0",
+  "description": "TikTok-style video viewer powered by tikwm",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "engines": {
+    "node": ">=18.x"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "node-fetch": "^2.7.0"
+  }
+}
