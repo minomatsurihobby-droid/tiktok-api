@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no" />
+<meta name="theme-color" content="#000000" />
+<title>TokView — Trending TikToks</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎵%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<!-- ===== トップバー ===== -->
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">🎵</span>
+    <span class="brand-name">TokView</span>
+  </div>
+
+  <form id="searchForm" class="search">
+    <input id="searchInput" type="search" placeholder="動画・ユーザー・タグを検索" autocomplete="off" />
+    <button type="submit" aria-label="検索">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+  </form>
+
+  <nav class="tabs">
+    <button class="tab active" data-mode="feed" data-region="jp">🇯🇵 おすすめ</button>
+    <button class="tab" data-mode="feed" data-region="us">🌍 グローバル</button>
+  </nav>
+</header>
+
+<!-- ===== フィード（縦スクロールスナップ） ===== -->
+<main id="feed" class="feed" aria-live="polite"></main>
+
+<!-- ローディング -->
+<div id="loader" class="loader" hidden>
+  <div class="spinner"></div>
+  <span>読み込み中…</span>
+</div>
+
+<!-- 検索結果が空の時 -->
+<div id="empty" class="empty" hidden>
+  <p>該当する動画が見つかりませんでした。</p>
+  <button id="emptyBack">おすすめに戻る</button>
+</div>
+
+<!-- ヒント -->
+<div id="hint" class="hint">
+  <span>↑↓ または スワイプでスクロール</span>
+</div>
+
+<!-- ===== テンプレート ===== -->
+<template id="cardTpl">
+  <article class="card" data-id="">
+    <video class="video" playsinline preload="metadata" loop webkit-playsinline x5-playsinline></video>
+
+    <!-- ロード/エラーオーバーレイ -->
+    <div class="overlay loading-overlay">
+      <div class="spinner"></div>
+    </div>
+    <div class="overlay play-overlay" hidden>
+      <div class="play-icon">▶</div>
+    </div>
+    <div class="overlay error-overlay" hidden>
+      <div class="error-box">
+        <div class="error-icon">⚠️</div>
+        <div class="error-msg">動画を読み込めませんでした</div>
+        <button class="error-retry">再試行</button>
+      </div>
+    </div>
+
+    <!-- 右サイドのアクション -->
+    <aside class="actions">
+      <button class="action avatar-btn" title="作者">
+        <img class="avatar" alt="" />
+        <span class="follow-plus">+</span>
+      </button>
+      <button class="action like-btn" title="いいね">
+        <svg viewBox="0 0 48 48" class="ic"><path d="M24 42s-13-8.5-13-19a8 8 0 0 1 14-5.3A8 8 0 0 1 37 23c0 10.5-13 19-13 19z" fill="currentColor"/></svg>
+        <span class="count digg">0</span>
+      </button>
+      <button class="action comment-btn" title="コメント">
+        <svg viewBox="0 0 48 48" class="ic"><path d="M9 8h30a3 3 0 0 1 3 3v22a3 3 0 0 1-3 3H20l-9 7v-7h-2a3 3 0 0 1-3-3V11a3 3 0 0 1 3-3z" fill="currentColor"/></svg>
+        <span class="count comment">0</span>
+      </button>
+      <button class="action share-btn" title="シェア">
+        <svg viewBox="0 0 48 48" class="ic"><path d="M30 6l14 14-14 14v-8c-12 0-20 4-24 14 0-14 8-24 24-24V6z" fill="currentColor"/></svg>
+        <span class="count share">0</span>
+      </button>
+      <div class="action music-disc" title="楽曲">
+        <img class="music-cover" alt="" />
+      </div>
+    </aside>
+
+    <!-- 下部の情報 -->
+    <footer class="meta">
+      <div class="author">@<span class="uniq">user</span></div>
+      <div class="title"></div>
+      <div class="music">🎵 <span class="music-title">original sound</span></div>
+    </footer>
+
+    <!-- 進行バー -->
+    <div class="progress"><div class="bar"></div></div>
+
+    <!-- ミュート表示 -->
+    <button class="mute-btn" title="ミュート切替">🔇</button>
+  </article>
+</template>
+
+<script src="/app.js"></script>
+</body>
+</html>
